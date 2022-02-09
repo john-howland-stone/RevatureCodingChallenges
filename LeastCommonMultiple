@@ -1,0 +1,37 @@
+import java.util.Arrays;
+import java.util.OptionalLong;
+import java.util.stream.LongStream;
+
+public class LeastCommonMultiple {
+    public static long leastCommonMultiple (int[] args) {
+        if (args==null || args.length <= 3) {
+            throw new IllegalArgumentException("Invalid Array");
+        }
+        OptionalLong optionalLong = Arrays.stream(args).asLongStream().max();
+        if (!optionalLong.isPresent()) {
+            throw new IllegalArgumentException("Array does not have a maximum value");
+        }
+        long testNum = optionalLong.getAsLong();
+        boolean finished = false;
+        while (!finished) {
+            long finalTestNum = testNum;
+            finished = !(Arrays.stream(args).asLongStream().anyMatch(l -> finalTestNum % l !=0));
+            if (finished) {
+                return testNum;
+            } else {
+                testNum++;
+            }
+        }
+        return -1; //Shouldn't get here
+    }
+    public static void main(String[] args) {
+        int[] array = {5, 4, 6, 46, 54, 12, 13, 17};
+        System.out.println(leastCommonMultiple(array));
+        int[] array2 = {46, 54, 466, 544};
+        System.out.println(leastCommonMultiple(array2));
+        int[] array3 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        System.out.println(leastCommonMultiple(array3));
+        int[] array4 = {13, 6, 17, 18, 19, 20, 37};
+        System.out.println(leastCommonMultiple(array4));
+    }
+}
